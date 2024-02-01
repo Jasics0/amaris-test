@@ -29,20 +29,20 @@ public class ApiConsumer {
     private final RestTemplate apiConsumer;
 
     @Cacheable("employees")
-    public List<Employee> getAllEmployees() {
+    public List<Employee> getAllEmployees() throws InterruptedException {
         ApiResponse response = null;
-        try {
-            while (response == null) {
+        while (response == null) {
+
+            try {
                 log.info("Trying to get data...");
                 response = getResponseApi();
-                Thread.sleep(1000);
+            } catch (Exception e) {
+                log.error("Se presentó un error al consumir la API");
+                Thread.sleep(2000);
             }
-
-            log.info("Data retrieved success");
-        } catch (Exception e) {
-            log.error("Se presentó un error al consumir la API");
         }
 
+        log.info("Data retrieved success");
         return response.getData();
     }
 

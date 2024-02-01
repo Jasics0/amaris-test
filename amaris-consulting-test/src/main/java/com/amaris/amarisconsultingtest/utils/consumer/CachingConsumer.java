@@ -19,13 +19,13 @@ public class CachingConsumer {
     private final ApiConsumer apiConsumer;
 
     @EventListener(ApplicationReadyEvent.class)
-    public void init() {
+    public void init() throws InterruptedException {
         apiConsumer.getAllEmployees();
         log.info("Cache loaded");
     }
 
     @Scheduled(cron = "0 0/30 * * * ?")
-    public void updateCharacterCaching() {
+    public void updateCharacterCaching() throws InterruptedException {
         log.info("Cleaning cache");
         cacheManager.getCache("employees").clear();
         init();

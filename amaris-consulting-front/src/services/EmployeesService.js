@@ -15,7 +15,7 @@ const getEmployees = async () => {
 
 const getEmployeeById = async (id) => {
     try {
-        const response = await fetch(url_api + id);
+        const response = await fetch(url_api+"/" + id);
         const jsonData = await response.json();
         let data = []
         data.push(jsonData.data)

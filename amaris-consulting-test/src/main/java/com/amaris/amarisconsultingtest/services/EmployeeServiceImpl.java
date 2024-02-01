@@ -1,5 +1,6 @@
 package com.amaris.amarisconsultingtest.services;
 
+import com.amaris.amarisconsultingtest.services.interfaces.EmployeeService;
 import com.amaris.amarisconsultingtest.utils.consumer.ApiConsumer;
 import com.amaris.amarisconsultingtest.model.Employee;
 import lombok.RequiredArgsConstructor;
@@ -10,11 +11,11 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class EmployeeService {
+public class EmployeeServiceImpl implements EmployeeService {
 
     private final ApiConsumer apiConsumer;
 
-    public List<Employee> getEmployees() {
+    public List<Employee> getEmployees() throws InterruptedException {
         return apiConsumer.getAllEmployees()
                 .stream()
                 .peek(employee -> employee.setAnnualSalary(getSalaryAnnual(employee.getSalary())))
@@ -22,7 +23,7 @@ public class EmployeeService {
     }
 
 
-    public Employee getEmployeeById(int id) {
+    public Employee getEmployeeById(int id) throws InterruptedException {
         return apiConsumer.getAllEmployees()
                 .stream()
                 .filter(employee -> employee.getId() == id)
